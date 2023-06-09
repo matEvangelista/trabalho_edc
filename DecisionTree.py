@@ -17,18 +17,17 @@ class Tree:
             string = self._right._stringify(string)
         return string + ')'
 
-    def nash_equilibrium_output(self):
-        if (self.leftmost_value(0) >= self._right.leftmost_value(0)
-                and self._left.rightmost_value(0) >= self.rightmost_value(0)):
-            return self._left._best_strategy()
-        if (self._right.leftmost_value(0) > self.leftmost_value(0)
-                and self.rightmost_value(0) > self._left.rightmost_value(0)):
-            return self._right._best_strategy()
+    def nash_equilibrium(self, count: int = 0) -> list:
+        if type(self._right._value) is list:  # ou ._left, tanto faz
+            return self._best_strategy(count)
+        s1: list = self._left.nash_equilibrium(count + 1)
+        s2: list = self._right.nash_equilibrium(count + 1)
+        return s1 if s1[0] > s2[0] else s2
 
     def pareto_efficient_output(self) -> list:
         outputs: list = self._get_all_outputs()
-        pareto: list = self.nash_equilibrium_output()
-        n1, n2 = self.nash_equilibrium_output()
+        pareto: list = self.nash_equilibrium()
+        n1, n2 = self.nash_equilibrium()
         for output in outputs:
             if output[0] > n1 and output[1] > n2:
                 pareto = output
@@ -39,25 +38,15 @@ class Tree:
             return [self._value]
         outputs: list = []
         if self._left is not None:
-            outputs += (self._left._get_all_outputs())
+            outputs += self._left._get_all_outputs()
         if self._right is not None:
-            outputs += (self._right._get_all_outputs())
+            outputs += self._right._get_all_outputs()
         return outputs
 
-    def _best_strategy(self) -> list:
-        if self._left._value[1] >= self._right._value[1]:
+    def _best_strategy(self, index: int) -> list:
+        if self._left._value[index] >= self._right._value[index]:
             return self._left._value
         return self._right._value
 
-    def leftmost_value(self, index: int) -> int:
-        if self.is_output():
-            return self._value[index]
-        return self._left.leftmost_value(index)
-
-    def rightmost_value(self, index: int) -> int:
-        if self.is_output():
-            return self._value[index]
-        return self._right.rightmost_value(index)
-
-    def is_output(self) -> bool:
+    def _is_output(self) -> bool:
         return self._left is None and self._right is None
