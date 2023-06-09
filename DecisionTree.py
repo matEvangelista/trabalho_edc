@@ -19,18 +19,20 @@ class Tree:
 
     def nash_equilibrium_output(self):
         if (self.leftmost_value(0) >= self._right.leftmost_value(0)
-                and (self._left.rightmost_value(0) >= self.rightmost_value(0))):
+                and self._left.rightmost_value(0) >= self.rightmost_value(0)):
             return self._left._best_strategy()
-        return self._right._best_strategy()
+        if (self._right.leftmost_value(0) > self.leftmost_value(0)
+                and self.rightmost_value(0) > self._left.rightmost_value(0)):
+            return self._right._best_strategy()
 
     def pareto_efficient_output(self) -> list:
         outputs: list = self._get_all_outputs()
-        sum_of_outputs: list = [sum(x) for x in outputs]
-        max_output = max(sum_of_outputs)
+        pareto: list = self.nash_equilibrium_output()
+        n1, n2 = self.nash_equilibrium_output()
         for output in outputs:
-            if sum(output) == max_output:
-                return output
-
+            if output[0] > n1 and output[1] > n2:
+                pareto = output
+        return pareto
 
     def _get_all_outputs(self) -> list:
         if self._left is None and self._right is None:

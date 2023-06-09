@@ -8,7 +8,7 @@ f4 = Tree([-2, -2])
 f5 = Tree("Jogador 2", f1, f2)
 f6 = Tree("Jogador 2", f3, f4)
 
-root = Tree("Jogador 1", f5, f6)
+root = Tree("Jogador 1", f6, f5)
 
 print(root)
 print(root.nash_equilibrium_output())
