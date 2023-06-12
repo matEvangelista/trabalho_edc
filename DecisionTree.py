@@ -1,3 +1,10 @@
+def _pareto_improvement(stt1: list, stt2: list) -> bool:
+    for i in range(len(stt1)):
+        if stt1[i] < stt2[i]:
+            return False
+    return True
+
+
 class Tree:
 
     # construtor para nó interno, folha ou raiz
@@ -18,18 +25,17 @@ class Tree:
         return string + ')'
 
     def nash_equilibrium(self, count: int = 0) -> list:
-        if type(self._right._value) is list:  # ou ._left, tanto faz
+        if type(self._right._value) is list and type(self._left._value) is list:
             return self._best_strategy(count)
         s1: list = self._left.nash_equilibrium(count + 1)
         s2: list = self._right.nash_equilibrium(count + 1)
-        return s1 if s1[0] > s2[0] else s2
+        return s1 if s1[count] > s2[count] else s2
 
     def pareto_efficient_output(self) -> list:
         outputs: list = self._get_all_outputs()
         pareto: list = self.nash_equilibrium()
-        n1, n2 = self.nash_equilibrium()
         for output in outputs:
-            if output[0] > n1 and output[1] > n2:
+            if _pareto_improvement(output, pareto):
                 pareto = output
         return pareto
 
