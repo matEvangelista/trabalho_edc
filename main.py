@@ -1,5 +1,6 @@
-from DecisionTree import Tree
+from DecisionTree import Tree, PayOff
 
+"""
 f1 = Tree([-7, -8, -8])
 f2 = Tree([-6, -6, -12])
 f3 = Tree([-6, -10, -6])
@@ -21,11 +22,12 @@ raiz = Tree("Jogador 1", no2_1, no2_2)
 
 print("Resultado do jogo: " + str(raiz.nash_equilibrium()))
 print("Resultado mais eficiente: " + str(raiz.pareto_efficient_output()))
+"""
 
-cc = [3, 3]
-cnc = [6, 0]
-ncc = [0, 6]
-ncnc = [5, 5]
+cc = PayOff(["Não coopera", "Não coopera"], [3, 3])
+cnc = PayOff(["Não coopera", "Coopera"], [6, 0])
+ncc = PayOff(["Coopera", "Não coopera"], [0, 6])
+ncnc = PayOff(["Coopera", "Coopera"], [5, 5])
 
 f1 = Tree(cc)
 f2 = Tree(cnc)
@@ -35,5 +37,6 @@ f4 = Tree(ncnc)
 j2_1c = Tree("Jogador 2", f1, f2)
 j2_1nc = Tree("Jogador 2", f3, f4)
 j1 = Tree("Jogador 1", j2_1c, j2_1nc)
-print("\nResultado do jogo: " + str(j1.nash_equilibrium()))
-print("Resultado mais eficiente: " + str(j1.pareto_efficient_output()))
+
+print(j1.nash_equilibrium())
+print(j1.pareto_efficient_output())

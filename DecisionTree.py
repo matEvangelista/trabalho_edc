@@ -24,11 +24,11 @@ class Tree:
             string = self._right._stringify(string)
         return string + ')'
 
-    def nash_equilibrium(self, count: int = 0) -> list:
-        if type(self._right._value) is list and type(self._left._value) is list:
+    def nash_equilibrium(self, count: int = 0):
+        if isinstance(self._right._value, PayOff) and isinstance(self._left._value, PayOff):
             return self._best_strategy(count)
-        s1: list = self._left.nash_equilibrium(count + 1)
-        s2: list = self._right.nash_equilibrium(count + 1)
+        s1 = self._left.nash_equilibrium(count + 1)
+        s2 = self._right.nash_equilibrium(count + 1)
         return s1 if s1[count] > s2[count] else s2
 
     def pareto_efficient_output(self) -> list:
@@ -56,3 +56,18 @@ class Tree:
 
     def _is_output(self) -> bool:
         return self._left is None and self._right is None
+
+
+class PayOff:
+    def __init__(self, strategies: list, payoffs: list):
+        self._strategies: list = strategies
+        self._payoffs: list = payoffs
+
+    def __str__(self) -> str:
+        return ', '.join(map(str, self._strategies)) + '. Payoffs: ' + ', '.join(map(str, self._payoffs))
+
+    def __getitem__(self, item) -> int:
+        return self._payoffs[item]
+
+    def __len__(self):
+        return len(self._strategies)
