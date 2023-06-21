@@ -1,14 +1,13 @@
 from DecisionTree import Tree, PayOff
 
-"""
-f1 = Tree([-7, -8, -8])
-f2 = Tree([-6, -6, -12])
-f3 = Tree([-6, -10, -6])
-f4 = Tree([100, 15, -12])
-f5 = Tree([20, -6, -6])
-f6 = Tree([14, 100, 12])
-f7 = Tree([12, 2, 0])
-f8 = Tree([-4, -4, -4])
+f1 = Tree(PayOff(["A", "A", "A"], [-7, -8, -8]))
+f2 = Tree(PayOff(["A", "A", "B"], [-6, -6, -12]))
+f3 = Tree(PayOff(["A", "B", "A"], [-6, -10, -6]))
+f4 = Tree(PayOff(["A", "B", "B"], [100, 15, -12]))
+f5 = Tree(PayOff(["B", "A", "A"], [20, -6, -6]))
+f6 = Tree(PayOff(["B", "B", "A"], [14, 100, 12]))
+f7 = Tree(PayOff(["B", "A", "A"], [12, 2, 0]))
+f8 = Tree(PayOff(["B", "B", "A"], [-4, -4, -4]))
 
 no3_1 = Tree("Jogador 3", f1, f2)
 no3_2 = Tree("Jogador 3", f3, f4)
@@ -20,9 +19,8 @@ no2_2 = Tree("Jogador 2", no3_3, no3_4)
 
 raiz = Tree("Jogador 1", no2_1, no2_2)
 
-print("Resultado do jogo: " + str(raiz.nash_equilibrium()))
-print("Resultado mais eficiente: " + str(raiz.pareto_efficient_output()))
-"""
+print("Equilíbrio de Nash: " + str(raiz.nash_equilibrium()))
+print("Resultado Eficiente: " + str(raiz.pareto_efficient_output()))
 
 cc = PayOff(["Não coopera", "Não coopera"], [3, 3])
 cnc = PayOff(["Não coopera", "Coopera"], [6, 0])
